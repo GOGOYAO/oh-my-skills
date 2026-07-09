@@ -1,0 +1,8 @@
+{
+  "name": "template-domain",
+  "description": "改我：该领域 plugin 的一句话说明（name 改成领域名，kebab-case）",
+  "version": "0.1.0",
+  "author": {
+    "name": "shunyuyao"
+  }
+}
