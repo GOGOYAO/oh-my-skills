@@ -9,5 +9,5 @@
 
 ## 工程化
 
-- [ ] CI：push 时跑 `claude plugin validate . --strict`（对 marketplace 和每个 plugin）
+- [ ] CI：push 时跑 `python3 scripts/build_catalog.py --check`（写法约定 + README skill 列表是否过期）和 `claude plugin validate . --strict`（对 marketplace 和每个 plugin）
 - [ ] 借鉴 skill 引入前的 license 检查清单化
