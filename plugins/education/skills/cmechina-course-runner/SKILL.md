@@ -9,7 +9,29 @@ metadata:
 
 ## 用法
 
-Claude Code：`/education:cmechina-course-runner 完成 https://www.cmechina.net/cme/study2.jsp?course_id=123&courseware_id=01 的全部小节`。Codex：`$cmechina-course-runner` 后提供课程网址及完成要求。
+安装后在客户端对话输入（将 `<课程网址>` 替换为 Chrome 中的实际 CMEChina 课程网址）：
+
+- Claude Code plugin：`/education:cmechina-course-runner 完成 <课程网址> 的全部小节视频及考试`。
+- Codex 独立 skill：`$cmechina-course-runner 完成 <课程网址> 的全部小节视频及考试`。
+
+最小示例：`/education:cmechina-course-runner 完成 https://www.cmechina.net/cme/study2.jsp?course_id=202601015609&courseware_id=01 的全部小节视频及考试`；Codex 将开头替换为 `$cmechina-course-runner`。网址仅为格式示例，实际操作使用用户提供的课程。
+
+## 安装
+
+Claude Code 对话中先执行：
+
+```text
+/plugin marketplace add GOGOYAO/oh-my-skills
+/plugin install education@oh-my-skills
+```
+
+Codex 对话中使用内置安装器安装独立 skill：
+
+```text
+$skill-installer 安装 https://github.com/GOGOYAO/oh-my-skills/tree/main/plugins/education/skills/cmechina-course-runner
+```
+
+Codex 不会仅因克隆本仓库或执行 Claude Code 安装命令就发现这个 skill。安装后从 skill 选择器确认名称；若未出现，重启客户端。若提示同名目录已存在，先检查已有版本再决定更新，不直接覆盖。
 
 ## 运行条件
 
@@ -19,8 +41,16 @@ Claude Code：`/education:cmechina-course-runner 完成 https://www.cmechina.net
 
 用户只需提供课程网址并要求完成课程，不必提供课程 ID、小节数量或每节指令。使用 skill 目录下的辅助脚本：
 
+Claude Code 使用宿主展开的 skill 目录：
+
 ```bash
-python3 scripts/cmechina_chrome.py --url 'https://www.cmechina.net/cme/study2.jsp?course_id=202601015547&courseware_id=02' status
+python3 "${CLAUDE_SKILL_DIR}/scripts/cmechina_chrome.py" --url '<课程网址>' status
+```
+
+Codex 从已加载的 skill 路径确定安装目录，使用脚本的绝对路径；不要把 `${CLAUDE_SKILL_DIR}` 当作 Codex 变量，也不要直接假定当前目录是 skill 目录。将下例两处占位值替换后执行：
+
+```bash
+python3 '/实际安装目录/cmechina-course-runner/scripts/cmechina_chrome.py' --url '<课程网址>' status
 ```
 
 开始课程或提交考试前必须获得用户授权；当前对话中已有的授权可以沿用。Chrome 必须开启 **查看 → 开发者 → 允许 Apple 事件中的 JavaScript**。
@@ -31,7 +61,7 @@ python3 scripts/cmechina_chrome.py --url 'https://www.cmechina.net/cme/study2.js
 
 首次运行必须读取 [references/workflow.md](references/workflow.md)。按以下状态流程连续处理，直到视频正在健康播放、确实需要用户操作或全部完成；不要执行一个点击后就结束当前轮。
 
-该任务需要跨越长视频：使用产品的当前线程 heartbeat，恢复检查间隔为 **10 分钟**。先查找相同课程的已有任务，复用或更新，不重复创建；提示词固定课程网址和本 skill 路径，不写死“当前第几节”。每轮根据真实页面重新判断；健康播放保持安静。考试和结果页在同一轮处理，直到下一段视频开始播放。若产品无法持续唤醒，明确说明不能保证后台连续执行，不把挂载页面监听器说成完整后台任务。
+该任务需要跨越长视频：宿主提供当前线程 heartbeat 时使用它，恢复检查间隔为 **10 分钟**。先查找相同课程的已有任务，复用或更新，不重复创建；提示词固定课程网址和本 skill 路径，不写死“当前第几节”。每轮根据真实页面重新判断；健康播放保持安静。考试和结果页在同一轮处理，直到下一段视频开始播放。若产品无法持续唤醒，明确说明不能保证后台连续执行，不把挂载页面监听器说成完整后台任务。
 
 `status.progress` 在课程列表提供总数、已通过数及每节状态；只有 `total > 0` 且 `allPassed: true` 才可报告全部完成，并删除该课程的监测任务。最后一节通过页只是候选结果，仍须返回课程列表验证。申请学分、支付和其他课程不在自动执行范围。
 
