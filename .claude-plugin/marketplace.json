@@ -3,9 +3,14 @@
   "owner": {
     "name": "shunyuyao"
   },
-  "description": "个人 Claude Code skill 集合，按领域组织为多个 plugin",
   "metadata": {
-    "pluginRoot": "./plugins"
+    "description": "个人 Claude Code skill 集合，按领域组织为多个 plugin"
   },
-  "plugins": []
+  "plugins": [
+    {
+      "name": "education",
+      "source": "./plugins/education",
+      "description": "教育课程学习辅助与流程自动化"
+    }
+  ]
 }

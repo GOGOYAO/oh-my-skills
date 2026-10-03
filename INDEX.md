@@ -4,7 +4,7 @@
 
 | Skill（命名空间） | 领域 (Plugin) | 来源 | 上游 / 原名 | License | 引入日期 | 改动说明 |
 |---|---|---|---|---|---|---|
-| *(暂无)* | | | | | | |
+| education:cmechina-course-runner | education | 自研 | — | 未声明 | 2026-10-03 | 从本地 CMEChina 课程助手整理；适配 marketplace 用法与宿主唤醒能力，保留 Chrome 脚本、离线测试和 Codex 元数据；修复 onclick 小节跳转及测试夹具 |
 
 ## 字段说明
 

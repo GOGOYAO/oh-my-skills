@@ -24,9 +24,15 @@
 
 <!-- 标记段内容由 scripts/build_catalog.py 生成，勿手改；改动 SKILL.md 后运行 python3 scripts/build_catalog.py 刷新 -->
 <!-- catalog:start -->
-共 0 个领域 / 0 个 skill。
+共 1 个领域 / 1 个 skill。
 
-*（暂无 skill —— 引入第一个后运行 `python3 scripts/build_catalog.py` 刷新）*
+### education（1 个）
+
+> 教育课程学习辅助与流程自动化
+
+| Skill | 功能 | 适用场景 | 用法 |
+|---|---|---|---|
+| [cmechina-course-runner](plugins/education/skills/cmechina-course-runner/SKILL.md) | 在 Chrome 中按真实播放状态推进 CMEChina 视频、考试与全部小节 | 当用户授权完成或继续 CMEChina 课程时使用。 | Claude Code：`/education:cmechina-course-runner 完成 https://www.cmechina.net/cme/study2.jsp?course_id=123&courseware_id=01 的全部小节`。Codex：`$cmechina-course-runner` 后提供课程网址及完成要求。 |
 <!-- catalog:end -->
 
 ## 开发

@@ -40,9 +40,9 @@ oh-my-skills/
 1. 拷贝 `templates/domain-plugin/` 到 `plugins/<领域名>/`，改 `plugin.json` 的 `name`（= 目录名）和 `description`
 2. 在 `.claude-plugin/marketplace.json` 的 `plugins` 数组登记：
    ```json
-   { "name": "<领域名>", "source": "<领域名>", "description": "..." }
+   { "name": "<领域名>", "source": "./plugins/<领域名>", "description": "..." }
    ```
-   （`metadata.pluginRoot` 已设为 `./plugins`，`source` 直接写目录名）
+   （`source` 使用以 `./` 开头的仓库相对路径）
 3. 把模板里的 example-skill 换成真实 skill，走下面的收尾
 
 ## 开发自研 skill
@@ -60,5 +60,5 @@ oh-my-skills/
 ## 收尾（每次改动 skill 后必做）
 
 1. `python3 scripts/build_catalog.py` —— 校验约定 + 刷新 README 的 skill 列表
-2. `claude plugin validate . --strict` —— 校验 marketplace / plugin manifest
+2. `claude plugin validate .` 与 `claude plugin validate plugins/<领域名>` —— 校验 marketplace / plugin manifest
 3. 实际触发一次 skill 确认可用
